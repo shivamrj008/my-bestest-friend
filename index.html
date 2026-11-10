@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Best Friend 💗</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+    <!-- Global Music Controller -->
+    <div class="global-music-btn" id="globalMusicBtn" title="Toggle Music">
+        <svg class="music-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+        <svg class="music-mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            <line x1="1" y1="1" x2="23" y2="23" stroke-width="3"/>
+        </svg>
+    </div>
+
+    <!-- Page Indicator -->
+    <div class="page-indicator" id="pageIndicator">
+        <span id="currentPageNum">01</span> / <span id="totalPages">20</span>
+    </div>
+
+    <!-- Floating Decorations Container -->
+    <div class="floating-decorations" id="floatingDecorations"></div>
+
+    <!-- ============ PAGE 1: WELCOME ============ -->
+    <section class="page active" id="page1" data-page="1">
+        <div class="page-inner welcome-page">
+            <div class="welcome-card">
+                <div class="deco-ribbon top-ribbon">🎀</div>
+                <div class="welcome-sticker cat-sticker">🐱</div>
+                <div class="welcome-hearts">
+                    <span class="float-heart" style="--delay:0s;--x:-30px">💕</span>
+                    <span class="float-heart" style="--delay:0.5s;--x:40px">💗</span>
+                    <span class="float-heart" style="--delay:1s;--x:-20px">✨</span>
+                    <span class="float-heart" style="--delay:1.5s;--x:30px">🌸</span>
+                    <span class="float-heart" style="--delay:2s;--x:-40px">💖</span>
+                    <span class="float-heart" style="--delay:0.3s;--x:10px">⭐</span>
+                </div>
+                <h1 class="welcome-title">Heyyy, You! 🎀</h1>
+                <p class="welcome-subtitle">I made something special for you...</p>
+                <div class="welcome-sparkle">✨ 🌸 ✨</div>
+                <button class="btn-pink btn-lg" onclick="goToPage(2)">
+                    <span>OPEN YOUR SURPRISE</span>
+                    <span class="btn-sparkle">💝</span>
+                </button>
+                <div class="welcome-teddy">🧸</div>
+            </div>
+            <div class="corner-deco top-left">🌸</div>
+            <div class="corner-deco top-right">🦋</div>
+            <div class="corner-deco bottom-left">🌷</div>
+            <div class="corner-deco bottom-right">⭐</div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 2: ARE YOU READY? ============ -->
+    <section class="page" id="page2" data-page="2">
+        <div class="page-inner ready-page">
+            <div class="scrapbook-card ready-card">
+                <div class="washi-tape tape-pink"></div>
+                <h1 class="page-title handwritten">WAITTT!!! ARE YOU REALLY READY?</h1>
+                <div class="angry-cat-sticker">😾</div>
+                <p class="page-subtitle">Think about it carefully...</p>
+                <div class="ready-buttons">
+                    <button class="btn-pink btn-lg" onclick="goToPage(3)">YES, I'M READY ✨</button>
+                    <button class="btn-outline btn-lg no-btn" id="noBtn" onmouseover="moveNoButton(this)" onclick="goToPage(3)">NOOO, NOT YET 😤</button>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(1)">← Back</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 3: QUESTION ============ -->
+    <section class="page" id="page3" data-page="3">
+        <div class="page-inner question-page">
+            <div class="scrapbook-card question-card">
+                <div class="washi-tape tape-rose"></div>
+                <h1 class="page-title">Do You Want a Surprise?? 🎁</h1>
+                <div class="polaroid-frame question-photo">
+                    <img src="" alt="Best Friend" id="questionPhoto">
+                    <div class="polaroid-caption handwritten">my fav human 💕</div>
+                </div>
+                <div class="question-buttons">
+                    <button class="btn-pink btn-lg" onclick="goToPage(4)">YES!! 🎉</button>
+                    <button class="btn-outline btn-lg" onclick="showFunnyMsg()">NO!! 😤</button>
+                </div>
+                <div class="funny-msg" id="funnyMsg" style="display:none">
+                    <p class="handwritten">Too bad! You're getting it anyway! 😜</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(2)">← Back</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 4: OUR LITTLE WORLD ============ -->
+    <section class="page" id="page4" data-page="4">
+        <div class="page-inner world-page">
+            <div class="page-header">
+                <div class="deco-flower-left">🌸</div>
+                <h1 class="page-title elegant">WELCOME TO OUR LITTLE WORLD</h1>
+                <p class="page-subtitle cursive">A tiny corner of the internet, made just for you. 💗</p>
+                <div class="deco-flower-right">🌷</div>
+            </div>
+            <div class="photo-collage world-collage" id="worldCollage">
+                <!-- Filled by JS -->
+            </div>
+            <div class="deco-elements">
+                <span class="deco-item" style="top:10%;left:5%">🦋</span>
+                <span class="deco-item" style="top:30%;right:8%">🌸</span>
+                <span class="deco-item" style="bottom:15%;left:10%">💕</span>
+                <span class="deco-item" style="bottom:10%;right:5%">✨</span>
+                <span class="deco-item" style="top:50%;left:3%">🎀</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(3)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(5)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 5: PHOTO WALL ============ -->
+    <section class="page" id="page5" data-page="5">
+        <div class="page-inner photowall-page">
+            <h1 class="page-title handwritten">📸 Our Photo Wall</h1>
+            <p class="page-subtitle">Click any photo to see it closer!</p>
+            <div class="photo-wall" id="photoWall">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(4)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(6)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img src="" alt="Photo" id="lightboxImg">
+    </div>
+
+    <!-- ============ PAGE 6: MEMORIES ============ -->
+    <section class="page" id="page6" data-page="6">
+        <div class="page-inner memories-page">
+            <h1 class="page-title elegant">Some Moments Just Stay Forever. 💭</h1>
+            <p class="page-subtitle handwritten">Little moments, big memories 🌸</p>
+            <div class="memory-cards" id="memoryCards">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(5)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(7)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 7: APPRECIATION ============ -->
+    <section class="page" id="page7" data-page="7">
+        <div class="page-inner appreciation-page">
+            <h1 class="page-title elegant">Little Things That Make You Special ✨</h1>
+            <div class="appreciation-grid" id="appreciationGrid">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(6)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(8)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 8: TIMELINE ============ -->
+    <section class="page" id="page8" data-page="8">
+        <div class="page-inner timeline-page">
+            <h1 class="page-title handwritten">OUR LITTLE JOURNEY 💕</h1>
+            <div class="timeline" id="timeline">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(7)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(9)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 9: INSIDE JOKES ============ -->
+    <section class="page" id="page9" data-page="9">
+        <div class="page-inner jokes-page">
+            <h1 class="page-title handwritten">THINGS ONLY WE UNDERSTAND 😂</h1>
+            <div class="jokes-board" id="jokesBoard">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(8)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(10)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 10: LETTER ============ -->
+    <section class="page" id="page10" data-page="10">
+        <div class="page-inner letter-page">
+            <h1 class="page-title elegant">YOU HAVE A LITTLE LETTER! 💌</h1>
+            <div class="envelope-container" id="envelopeContainer">
+                <div class="envelope" id="envelope" onclick="openEnvelope()">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body">
+                        <div class="envelope-heart">💗</div>
+                    </div>
+                </div>
+                <button class="btn-pink btn-lg envelope-btn" id="openLetterBtn" onclick="openEnvelope()">OPEN LETTER 💌</button>
+            </div>
+            <div class="letter-content" id="letterContent" style="display:none">
+                <div class="letter-paper">
+                    <div class="washi-tape tape-pink"></div>
+                    <p class="letter-text handwritten" id="letterText"></p>
+                    <p class="letter-sign handwritten">— Your Best Friend 💗</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(9)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(11)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 11: YOUR PHOTO COLLECTION ============ -->
+    <section class="page" id="page11" data-page="11">
+        <div class="page-inner collection-page">
+            <h1 class="page-title handwritten">Your Photo Collection 📷</h1>
+            <p class="page-subtitle">A gallery just for you ✨</p>
+            <div class="photo-collection" id="photoCollection">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(10)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(12)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 12: MUSIC CORNER ============ -->
+    <section class="page" id="page12" data-page="12">
+        <div class="page-inner music-page">
+            <h1 class="page-title handwritten">OUR LITTLE SOUNDTRACK 🎵</h1>
+            <div class="music-player-card">
+                <div class="album-art" id="albumArt">
+                    <div class="vinyl-record">
+                        <div class="vinyl-center">🎵</div>
+                    </div>
+                </div>
+                <div class="song-info">
+                    <p class="song-title" id="songTitle">Our Song</p>
+                    <p class="song-artist" id="songArtist">Add your music file</p>
+                </div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+                <div class="player-controls">
+                    <button class="player-btn" id="prevBtn" onclick="prevTrack()">⏮</button>
+                    <button class="player-btn play-btn" id="playPauseBtn" onclick="togglePlay()">▶</button>
+                    <button class="player-btn" id="nextBtn" onclick="nextTrack()">⏭</button>
+                </div>
+                <div class="volume-control">
+                    <span>🔈</span>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+                    <span>🔊</span>
+                </div>
+                <p class="music-note handwritten">Add music files to the assets/music folder 🎶</p>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(11)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(13)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 13: MOOD ============ -->
+    <section class="page" id="page13" data-page="13">
+        <div class="page-inner mood-page">
+            <h1 class="page-title handwritten">WHAT'S YOUR MOOD TODAY? 🌈</h1>
+            <div class="mood-grid" id="moodGrid">
+                <!-- Filled by JS -->
+            </div>
+            <div class="mood-message" id="moodMessage" style="display:none">
+                <div class="scrapbook-card mood-result-card">
+                    <p class="mood-result handwritten" id="moodResult"></p>
+                    <button class="btn-outline" onclick="resetMood()">Choose Again 🔄</button>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(12)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(14)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 14: THIS OR THAT ============ -->
+    <section class="page" id="page14" data-page="14">
+        <div class="page-inner thisorthat-page">
+            <h1 class="page-title handwritten">THIS OR THAT? 🤔</h1>
+            <div class="tot-container" id="totContainer">
+                <div class="tot-question" id="totQuestion"></div>
+                <div class="tot-buttons">
+                    <button class="btn-pink btn-lg tot-btn" id="totBtn1" onclick="chooseTOT(0)"></button>
+                    <span class="tot-or">OR</span>
+                    <button class="btn-outline btn-lg tot-btn" id="totBtn2" onclick="chooseTOT(1)"></button>
+                </div>
+                <div class="tot-progress">
+                    <span id="totProgress"></span>
+                </div>
+            </div>
+            <div class="tot-result" id="totResult" style="display:none">
+                <div class="scrapbook-card">
+                    <h2 class="handwritten">Your Results! 🌸</h2>
+                    <div id="totResultList"></div>
+                    <button class="btn-pink" onclick="resetTOT()">Play Again 🔄</button>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(13)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(15)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 15: COMPLIMENT ============ -->
+    <section class="page" id="page15" data-page="15">
+        <div class="page-inner compliment-page">
+            <h1 class="page-title elegant">A LITTLE COMPLIMENT FOR YOU ✨</h1>
+            <div class="compliment-card">
+                <div class="compliment-text" id="complimentText">
+                    <p class="handwritten">Click the button for a compliment! 🌸</p>
+                </div>
+                <div class="sparkle-container" id="sparkleContainer"></div>
+                <button class="btn-pink btn-lg compliment-btn" onclick="generateCompliment()">
+                    GIVE ME A COMPLIMENT 💝
+                </button>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(14)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(16)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 16: OPEN WHEN ============ -->
+    <section class="page" id="page16" data-page="16">
+        <div class="page-inner openwhen-page">
+            <h1 class="page-title handwritten">Open When... 💌</h1>
+            <div class="openwhen-grid" id="openWhenGrid">
+                <!-- Filled by JS -->
+            </div>
+            <!-- Modal for open-when messages -->
+            <div class="openwhen-modal" id="openWhenModal" style="display:none">
+                <div class="openwhen-modal-content">
+                    <button class="openwhen-close" onclick="closeOpenWhen()">&times;</button>
+                    <div class="letter-paper">
+                        <h3 class="handwritten" id="openWhenTitle"></h3>
+                        <p class="handwritten" id="openWhenMessage"></p>
+                        <span class="letter-deco">💕</span>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(15)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(17)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 17: MOODBOARD ============ -->
+    <section class="page" id="page17" data-page="17">
+        <div class="page-inner moodboard-page">
+            <h1 class="page-title handwritten">Our Moodboard 🎀</h1>
+            <div class="moodboard-grid" id="moodboardGrid">
+                <!-- Filled by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(16)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(18)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 18: MEMORY GAME ============ -->
+    <section class="page" id="page18" data-page="18">
+        <div class="page-inner memorygame-page">
+            <h1 class="page-title handwritten">Memory Game 🃏</h1>
+            <p class="page-subtitle">Match the pairs! 🌸</p>
+            <div class="game-stats">
+                <span>Moves: <strong id="moveCount">0</strong></span>
+                <span>Pairs: <strong id="pairCount">0</strong>/<strong id="totalPairs">8</strong></span>
+            </div>
+            <div class="memory-game-board" id="gameBoard">
+                <!-- Filled by JS -->
+            </div>
+            <div class="game-congrats" id="gameCongrats" style="display:none">
+                <div class="scrapbook-card congrats-card">
+                    <h2 class="handwritten">🎉 You Did It! 🎉</h2>
+                    <p class="handwritten">You found all the pairs in <span id="finalMoves">0</span> moves!</p>
+                    <button class="btn-pink" onclick="startMemoryGame()">Play Again 🔄</button>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(17)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(19)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 19: LAST SURPRISE ============ -->
+    <section class="page" id="page19" data-page="19">
+        <div class="page-inner surprise-page">
+            <h1 class="page-title elegant">WAIT... THERE'S SOMETHING ELSE! 🎁</h1>
+            <div class="gift-container" id="giftContainer">
+                <div class="gift-box" id="giftBox" onclick="openGift()">
+                    <div class="gift-lid">
+                        <div class="gift-bow">🎀</div>
+                    </div>
+                    <div class="gift-base">
+                        <div class="gift-ribbon-v"></div>
+                        <div class="gift-ribbon-h"></div>
+                    </div>
+                </div>
+                <button class="btn-pink btn-lg gift-btn" id="giftBtn" onclick="openGift()">UNLOCK THE SURPRISE 🔓</button>
+            </div>
+            <div class="surprise-reveal" id="surpriseReveal" style="display:none">
+                <div class="surprise-hearts" id="surpriseHearts"></div>
+                <div class="scrapbook-card surprise-card">
+                    <h2 class="handwritten">You're Truly One of a Kind 💗</h2>
+                    <div class="polaroid-frame surprise-photo">
+                        <img src="" alt="Surprise Photo" id="surprisePhoto">
+                        <div class="polaroid-caption handwritten">us forever 💕</div>
+                    </div>
+                    <p class="surprise-message handwritten" id="surpriseMessage"></p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(18)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(20)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 20: FINAL ============ -->
+    <section class="page" id="page20" data-page="20">
+        <div class="page-inner final-page">
+            <div class="final-sparkles">
+                <span style="--d:0s">✨</span><span style="--d:0.3s">💕</span>
+                <span style="--d:0.6s">🌸</span><span style="--d:0.9s">⭐</span>
+                <span style="--d:1.2s">💗</span><span style="--d:1.5s">✨</span>
+            </div>
+            <h1 class="page-title elegant final-title">And That's Our Little World! 🌎💗</h1>
+            <div class="final-message">
+                <p class="handwritten final-text">Some people make ordinary days feel a little more special. I'm genuinely glad to have you as my friend. Here's to more laughter, more memories, and countless crazy moments together.</p>
+            </div>
+            <div class="final-collage" id="finalCollage">
+                <!-- Filled by JS -->
+            </div>
+            <h2 class="handwritten final-thanks">THANK YOU FOR BEING YOU! 💗</h2>
+            <button class="btn-pink btn-lg replay-btn" onclick="goToPage(1)">
+                REPLAY THE SURPRISE 🔄✨
+            </button>
+            <div class="final-footer handwritten">
+                <p>Made with 💗 for my best friend</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio element for global music -->
+    <audio id="globalAudio" loop preload="auto">
+        <!-- Add your music source here -->
+        <!-- <source src="assets/music/song.mp3" type="audio/mpeg"> -->
+    </audio>
+    <audio id="pageAudio" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

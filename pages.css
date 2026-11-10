@@ -1,0 +1,151 @@
+/* ===========================
+   ADDITIONAL PAGE STYLES
+   =========================== */
+
+/* Extra page-specific CSS that supplements style.css */
+
+/* Scrapbook paper texture overlay */
+.scrapbook-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(248,215,227,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(239,182,200,0.08) 0%, transparent 50%);
+}
+
+/* Torn paper edge effect */
+.torn-edge-top {
+    position: relative;
+}
+.torn-edge-top::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 16px;
+    background: var(--white);
+    clip-path: polygon(
+        0% 50%, 3% 20%, 6% 60%, 9% 30%, 12% 55%, 15% 25%, 
+        18% 50%, 21% 20%, 24% 65%, 27% 35%, 30% 50%, 33% 20%,
+        36% 55%, 39% 30%, 42% 60%, 45% 25%, 48% 50%, 51% 20%,
+        54% 60%, 57% 35%, 60% 55%, 63% 20%, 66% 50%, 69% 30%,
+        72% 60%, 75% 25%, 78% 55%, 81% 20%, 84% 50%, 87% 30%,
+        90% 60%, 93% 25%, 96% 55%, 100% 50%, 100% 100%, 0% 100%
+    );
+}
+
+/* Button ripple */
+.btn-pink:active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.2);
+    animation: ripple 0.4s ease-out;
+}
+@keyframes ripple {
+    from { transform: scale(0); opacity: 1; }
+    to { transform: scale(2); opacity: 0; }
+}
+
+/* Photo hover caption */
+.photo-wall-item .hover-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(94,69,80,0.7));
+    color: var(--white);
+    padding: 20px 12px 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0 0 0 0;
+}
+.photo-wall-item:hover .hover-caption {
+    opacity: 1;
+}
+
+/* Collection polaroid row */
+.polaroid-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+.polaroid-row .polaroid-frame {
+    width: 160px;
+}
+.polaroid-row .polaroid-frame img {
+    height: 140px;
+}
+.polaroid-row .polaroid-frame:nth-child(odd) { transform: rotate(-3deg); }
+.polaroid-row .polaroid-frame:nth-child(even) { transform: rotate(2deg); }
+
+/* Flower decoration SVG style */
+.flower-deco {
+    position: absolute;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Interactive card click effect */
+.card-clicked {
+    animation: bounceIn 0.4s ease;
+}
+
+/* Loading shimmer */
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--light-pink) 25%,
+        var(--pastel-pink) 50%,
+        var(--light-pink) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+/* Selection style */
+::selection {
+    background: var(--pastel-pink);
+    color: var(--text);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--soft-rose);
+    outline-offset: 3px;
+}
+
+/* Heart border decoration */
+.heart-border {
+    border-image: repeating-linear-gradient(
+        90deg,
+        var(--soft-rose) 0px,
+        var(--soft-rose) 4px,
+        transparent 4px,
+        transparent 8px
+    ) 4;
+    border-width: 2px;
+    border-style: solid;
+}
+
+/* Gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, var(--soft-rose), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

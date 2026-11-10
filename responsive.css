@@ -1,0 +1,441 @@
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .world-collage {
+        gap: 16px;
+    }
+    .photo-wall {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 18px;
+    }
+    .moodboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 100px;
+    }
+    .magazine-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Landscape & Small Tablets */
+@media (max-width: 768px) {
+    html { font-size: 15px; }
+
+    .page-inner {
+        padding: 50px 16px 90px;
+    }
+
+    .page-title {
+        font-size: 1.9rem;
+    }
+    .page-title.handwritten {
+        font-size: 2.2rem;
+    }
+    .page-title.elegant {
+        font-size: 1.8rem;
+    }
+
+    .welcome-title {
+        font-size: 2.4rem;
+    }
+    .welcome-subtitle {
+        font-size: 1.3rem;
+    }
+    .welcome-card {
+        padding: 36px 24px;
+    }
+
+    .scrapbook-card {
+        padding: 28px 20px;
+    }
+
+    .btn-lg {
+        padding: 14px 32px;
+        font-size: 1rem;
+    }
+
+    .world-collage {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .world-collage .polaroid-frame img {
+        height: 160px;
+    }
+
+    .photo-wall {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 14px;
+    }
+    .photo-wall-item .polaroid-frame img {
+        height: 140px;
+    }
+
+    .memory-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .appreciation-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+    .timeline-item {
+        flex-direction: row !important;
+        padding-left: 50px;
+    }
+    .timeline-item:nth-child(odd) {
+        text-align: left;
+    }
+    .timeline-dot {
+        left: 20px;
+    }
+    .timeline-content {
+        width: 100%;
+    }
+
+    .jokes-board {
+        gap: 14px;
+    }
+    .joke-sticky {
+        width: 160px;
+        min-height: 150px;
+        font-size: 1rem;
+    }
+
+    .envelope {
+        width: 220px;
+        height: 150px;
+    }
+
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tot-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .tot-or {
+        font-size: 1.1rem;
+    }
+
+    .openwhen-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .moodboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 100px;
+    }
+
+    .memory-game-board {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        max-width: 350px;
+    }
+
+    .final-collage .polaroid-frame {
+        width: 120px;
+    }
+    .final-collage .polaroid-frame img {
+        height: 100px;
+    }
+
+    .final-title {
+        font-size: 1.8rem;
+    }
+    .final-text {
+        font-size: 1.1rem;
+    }
+
+    .deco-flower-left, .deco-flower-right {
+        display: none;
+    }
+
+    .music-player-card {
+        padding: 30px 24px;
+    }
+    .album-art {
+        width: 140px;
+        height: 140px;
+    }
+    .vinyl-record {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    html { font-size: 14px; }
+
+    .page-inner {
+        padding: 50px 12px 90px;
+    }
+
+    .page-title {
+        font-size: 1.6rem;
+    }
+    .page-title.handwritten {
+        font-size: 1.9rem;
+    }
+    .page-title.elegant {
+        font-size: 1.5rem;
+    }
+
+    .welcome-title {
+        font-size: 2rem;
+    }
+    .welcome-subtitle {
+        font-size: 1.15rem;
+    }
+    .welcome-card {
+        padding: 30px 18px;
+        margin: 0 8px;
+    }
+    .welcome-sticker {
+        font-size: 2.2rem;
+        top: -15px;
+        right: -8px;
+    }
+    .welcome-teddy {
+        font-size: 2rem;
+        bottom: -12px;
+        left: -5px;
+    }
+
+    .scrapbook-card {
+        padding: 22px 16px;
+        margin: 0 8px;
+    }
+
+    .btn-pink, .btn-outline {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+    .btn-lg {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+    }
+    .btn-nav {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+    }
+
+    .nav-buttons {
+        margin-top: 28px;
+    }
+
+    .world-collage {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .world-collage .polaroid-frame img {
+        height: 200px;
+    }
+
+    .photo-wall {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+    .photo-wall-item .polaroid-frame {
+        padding: 6px 6px 35px 6px;
+    }
+    .photo-wall-item .polaroid-frame img {
+        height: 120px;
+    }
+
+    .memory-card img {
+        height: 160px;
+    }
+
+    .appreciation-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .appreciation-card {
+        padding: 20px 14px;
+    }
+    .appreciation-card .card-emoji {
+        font-size: 2rem;
+    }
+    .appreciation-card .card-text {
+        font-size: 1.1rem;
+    }
+
+    .timeline-item {
+        padding-left: 40px;
+    }
+    .timeline-content {
+        padding: 14px;
+    }
+    .timeline-content img {
+        height: 90px;
+    }
+
+    .jokes-board {
+        gap: 10px;
+    }
+    .joke-sticky {
+        width: 140px;
+        min-height: 130px;
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+
+    .envelope {
+        width: 200px;
+        height: 130px;
+    }
+
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .mood-btn {
+        padding: 18px 12px;
+    }
+    .mood-btn .mood-emoji {
+        font-size: 2rem;
+    }
+
+    .compliment-card {
+        padding: 34px 22px;
+    }
+    .compliment-text p {
+        font-size: 1.2rem;
+    }
+
+    .openwhen-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .openwhen-envelope {
+        padding: 20px 14px;
+        min-height: 120px;
+    }
+
+    .moodboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 90px;
+        gap: 8px;
+    }
+
+    .memory-game-board {
+        gap: 6px;
+        max-width: 300px;
+    }
+    .game-card-front {
+        font-size: 1.4rem;
+    }
+    .game-card-back {
+        font-size: 1.6rem;
+    }
+
+    .gift-base {
+        width: 130px;
+        height: 100px;
+    }
+    .gift-lid {
+        width: 145px;
+    }
+
+    .surprise-photo {
+        max-width: 220px;
+    }
+    .surprise-photo img {
+        height: 200px;
+    }
+
+    .final-collage .polaroid-frame {
+        width: 100px;
+    }
+    .final-collage .polaroid-frame img {
+        height: 80px;
+    }
+    .final-collage .polaroid-frame {
+        padding: 6px 6px 30px 6px;
+    }
+    .final-thanks {
+        font-size: 1.6rem;
+    }
+
+    .page-indicator {
+        padding: 6px 18px;
+        font-size: 0.95rem;
+    }
+
+    .global-music-btn {
+        width: 40px;
+        height: 40px;
+        top: 12px;
+        right: 12px;
+    }
+    .global-music-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .corner-deco {
+        font-size: 1.5rem;
+    }
+
+    .film-frame {
+        min-width: 130px;
+    }
+    .film-frame img {
+        height: 90px;
+    }
+
+    .magazine-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .magazine-grid .mag-item:first-child {
+        grid-row: span 1;
+    }
+
+    .letter-paper {
+        padding: 28px 20px;
+    }
+    .letter-text {
+        font-size: 1.1rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 350px) {
+    .page-title {
+        font-size: 1.4rem;
+    }
+    .page-title.handwritten {
+        font-size: 1.6rem;
+    }
+    .welcome-title {
+        font-size: 1.7rem;
+    }
+    .btn-pink, .btn-outline {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .appreciation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-wall {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Print prevention */
+@media print {
+    body { display: none; }
+}
