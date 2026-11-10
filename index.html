@@ -2,8 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>For My Best Friend 💗</title>
+    <!-- Prevent Theme Flash -->
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('friendship_site_theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,28 +26,64 @@
     <link rel="stylesheet" href="pages.css">
 </head>
 <body>
-    <!-- Global Music Controller -->
-    <div class="global-music-btn" id="globalMusicBtn" title="Toggle Music">
-        <svg class="music-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-        </svg>
-        <svg class="music-mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-            <line x1="1" y1="1" x2="23" y2="23" stroke-width="3"/>
-        </svg>
-    </div>
+    <!-- Global Floating Settings Bar -->
+    <aside class="global-settings" id="globalSettings" aria-label="Quick Settings">
+        <!-- Theme Toggle (☀️ / 🌙) -->
+        <button class="settings-btn theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Dark or Light Mode" title="Toggle Dark/Light Mode">
+            <span class="theme-icon" id="themeIcon">🌙</span>
+        </button>
+
+        <!-- Music Play / Pause -->
+        <button class="settings-btn music-toggle-btn" id="globalMusicPlayBtn" aria-label="Play or Pause Music" title="Play / Pause Music">
+            <span class="music-note-icon" id="globalMusicPlayIcon">▶</span>
+            <span class="music-wave-bars" id="musicWaveBars" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </span>
+        </button>
+
+        <!-- Music Mute / Unmute -->
+        <button class="settings-btn music-mute-btn" id="globalMusicMuteBtn" aria-label="Mute or Unmute Music" title="Mute / Unmute Music">
+            <span id="globalMuteIcon">🔊</span>
+        </button>
+
+        <!-- Mini Player Toggle -->
+        <button class="settings-btn mini-player-btn" id="miniPlayerToggleBtn" aria-label="Open Mini Player" title="Music Details">
+            <span class="mini-player-icon">🎵</span>
+        </button>
+
+        <!-- Expandable Floating Mini Player Popup -->
+        <div class="mini-player-popup" id="miniPlayerPopup" role="region" aria-label="Floating Music Player">
+            <div class="mini-player-header">
+                <div class="mini-vinyl" id="miniVinyl">🎶</div>
+                <div class="mini-track-info">
+                    <p class="mini-track-title" id="miniTrackTitle">Our Special Song 🎶</p>
+                    <p class="mini-track-artist" id="miniTrackArtist">For My Best Friend 💗</p>
+                </div>
+            </div>
+            <div class="mini-progress-container" id="miniProgressContainer" title="Seek position">
+                <div class="mini-progress-bar" id="miniProgressBar"></div>
+            </div>
+            <div class="mini-time-display">
+                <span id="miniCurrentTime">0:00</span>
+                <span id="miniTotalTime">0:00</span>
+            </div>
+            <div class="mini-volume-row">
+                <span class="mini-vol-icon" id="miniVolIcon">🔈</span>
+                <input type="range" id="miniVolumeSlider" min="0" max="100" value="75" class="volume-slider" aria-label="Volume Slider">
+                <span class="mini-vol-icon">🔊</span>
+            </div>
+        </div>
+    </aside>
 
     <!-- Page Indicator -->
-    <div class="page-indicator" id="pageIndicator">
+    <nav class="page-indicator" id="pageIndicator" aria-label="Page navigation status">
         <span id="currentPageNum">01</span> / <span id="totalPages">20</span>
-    </div>
+    </nav>
 
-    <!-- Floating Decorations Container -->
-    <div class="floating-decorations" id="floatingDecorations"></div>
+    <!-- Floating Background Decorations -->
+    <div class="floating-decorations" id="floatingDecorations" aria-hidden="true"></div>
 
-    <!-- ============ PAGE 1: WELCOME ============ -->
+    <!-- ============ PAGE 1: THE WELCOME SCREEN ============ -->
     <section class="page active" id="page1" data-page="1">
         <div class="page-inner welcome-page">
             <div class="welcome-card">
@@ -51,20 +100,20 @@
                 <h1 class="welcome-title">Heyyy, You! 🎀</h1>
                 <p class="welcome-subtitle">I made something special for you...</p>
                 <div class="welcome-sparkle">✨ 🌸 ✨</div>
-                <button class="btn-pink btn-lg" onclick="goToPage(2)">
+                <button class="btn-pink btn-lg" id="welcomeStartBtn" onclick="startExperienceAndGoTo(2)">
                     <span>OPEN YOUR SURPRISE</span>
                     <span class="btn-sparkle">💝</span>
                 </button>
                 <div class="welcome-teddy">🧸</div>
             </div>
-            <div class="corner-deco top-left">🌸</div>
-            <div class="corner-deco top-right">🦋</div>
-            <div class="corner-deco bottom-left">🌷</div>
-            <div class="corner-deco bottom-right">⭐</div>
+            <div class="corner-deco top-left" aria-hidden="true">🌸</div>
+            <div class="corner-deco top-right" aria-hidden="true">🦋</div>
+            <div class="corner-deco bottom-left" aria-hidden="true">🌷</div>
+            <div class="corner-deco bottom-right" aria-hidden="true">⭐</div>
         </div>
     </section>
 
-    <!-- ============ PAGE 2: ARE YOU READY? ============ -->
+    <!-- ============ PAGE 2: WAIT... ONE MORE THING! ============ -->
     <section class="page" id="page2" data-page="2">
         <div class="page-inner ready-page">
             <div class="scrapbook-card ready-card">
@@ -74,7 +123,7 @@
                 <p class="page-subtitle">Think about it carefully...</p>
                 <div class="ready-buttons">
                     <button class="btn-pink btn-lg" onclick="goToPage(3)">YES, I'M READY ✨</button>
-                    <button class="btn-outline btn-lg no-btn" id="noBtn" onmouseover="moveNoButton(this)" onclick="goToPage(3)">NOOO, NOT YET 😤</button>
+                    <button class="btn-outline btn-lg no-btn" id="noBtn" onmouseover="moveNoButton(this)" ontouchstart="moveNoButton(this)" onclick="goToPage(3)">NOOO, NOT YET 😤</button>
                 </div>
             </div>
             <div class="nav-buttons">
@@ -83,14 +132,14 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 3: QUESTION ============ -->
+    <!-- ============ PAGE 3: A LITTLE QUESTION ============ -->
     <section class="page" id="page3" data-page="3">
         <div class="page-inner question-page">
             <div class="scrapbook-card question-card">
                 <div class="washi-tape tape-rose"></div>
                 <h1 class="page-title">Do You Want a Surprise?? 🎁</h1>
-                <div class="polaroid-frame question-photo">
-                    <img src="" alt="Best Friend" id="questionPhoto">
+                <div class="polaroid-frame question-photo" id="questionPhotoFrame">
+                    <img src="" alt="Best Friend" id="questionPhoto" loading="lazy">
                     <div class="polaroid-caption handwritten">my fav human 💕</div>
                 </div>
                 <div class="question-buttons">
@@ -111,15 +160,15 @@
     <section class="page" id="page4" data-page="4">
         <div class="page-inner world-page">
             <div class="page-header">
-                <div class="deco-flower-left">🌸</div>
+                <div class="deco-flower-left" aria-hidden="true">🌸</div>
                 <h1 class="page-title elegant">WELCOME TO OUR LITTLE WORLD</h1>
                 <p class="page-subtitle cursive">A tiny corner of the internet, made just for you. 💗</p>
-                <div class="deco-flower-right">🌷</div>
+                <div class="deco-flower-right" aria-hidden="true">🌷</div>
             </div>
             <div class="photo-collage world-collage" id="worldCollage">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
-            <div class="deco-elements">
+            <div class="deco-elements" aria-hidden="true">
                 <span class="deco-item" style="top:10%;left:5%">🦋</span>
                 <span class="deco-item" style="top:30%;right:8%">🌸</span>
                 <span class="deco-item" style="bottom:15%;left:10%">💕</span>
@@ -133,13 +182,13 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 5: PHOTO WALL ============ -->
+    <!-- ============ PAGE 5: THE PHOTO WALL ============ -->
     <section class="page" id="page5" data-page="5">
         <div class="page-inner photowall-page">
             <h1 class="page-title handwritten">📸 Our Photo Wall</h1>
-            <p class="page-subtitle">Click any photo to see it closer!</p>
+            <p class="page-subtitle">Click any photo to see it closer in full quality! ✨</p>
             <div class="photo-wall" id="photoWall">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(4)">← Back</button>
@@ -148,19 +197,19 @@
         </div>
     </section>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <img src="" alt="Photo" id="lightboxImg">
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo Lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" aria-label="Close Lightbox" onclick="closeLightbox()">&times;</button>
+        <img src="" alt="Enlarged Memory Photo" id="lightboxImg">
     </div>
 
-    <!-- ============ PAGE 6: MEMORIES ============ -->
+    <!-- ============ PAGE 6: LITTLE MOMENTS, BIG MEMORIES ============ -->
     <section class="page" id="page6" data-page="6">
         <div class="page-inner memories-page">
             <h1 class="page-title elegant">Some Moments Just Stay Forever. 💭</h1>
             <p class="page-subtitle handwritten">Little moments, big memories 🌸</p>
             <div class="memory-cards" id="memoryCards">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(5)">← Back</button>
@@ -169,12 +218,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 7: APPRECIATION ============ -->
+    <!-- ============ PAGE 7: THINGS I APPRECIATE ABOUT YOU ============ -->
     <section class="page" id="page7" data-page="7">
         <div class="page-inner appreciation-page">
             <h1 class="page-title elegant">Little Things That Make You Special ✨</h1>
             <div class="appreciation-grid" id="appreciationGrid">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(6)">← Back</button>
@@ -183,12 +232,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 8: TIMELINE ============ -->
+    <!-- ============ PAGE 8: OUR FRIENDSHIP TIMELINE ============ -->
     <section class="page" id="page8" data-page="8">
         <div class="page-inner timeline-page">
             <h1 class="page-title handwritten">OUR LITTLE JOURNEY 💕</h1>
             <div class="timeline" id="timeline">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(7)">← Back</button>
@@ -202,7 +251,7 @@
         <div class="page-inner jokes-page">
             <h1 class="page-title handwritten">THINGS ONLY WE UNDERSTAND 😂</h1>
             <div class="jokes-board" id="jokesBoard">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(8)">← Back</button>
@@ -211,12 +260,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 10: LETTER ============ -->
+    <!-- ============ PAGE 10: A LITTLE NOTE FOR YOU ============ -->
     <section class="page" id="page10" data-page="10">
         <div class="page-inner letter-page">
             <h1 class="page-title elegant">YOU HAVE A LITTLE LETTER! 💌</h1>
             <div class="envelope-container" id="envelopeContainer">
-                <div class="envelope" id="envelope" onclick="openEnvelope()">
+                <div class="envelope" id="envelope" onclick="openEnvelope()" role="button" aria-label="Open letter envelope">
                     <div class="envelope-flap"></div>
                     <div class="envelope-body">
                         <div class="envelope-heart">💗</div>
@@ -244,7 +293,7 @@
             <h1 class="page-title handwritten">Your Photo Collection 📷</h1>
             <p class="page-subtitle">A gallery just for you ✨</p>
             <div class="photo-collection" id="photoCollection">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(10)">← Back</button>
@@ -253,21 +302,21 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 12: MUSIC CORNER ============ -->
+    <!-- ============ PAGE 12: THE MUSIC CORNER ============ -->
     <section class="page" id="page12" data-page="12">
         <div class="page-inner music-page">
             <h1 class="page-title handwritten">OUR LITTLE SOUNDTRACK 🎵</h1>
             <div class="music-player-card">
                 <div class="album-art" id="albumArt">
-                    <div class="vinyl-record">
+                    <div class="vinyl-record" id="pageVinyl">
                         <div class="vinyl-center">🎵</div>
                     </div>
                 </div>
                 <div class="song-info">
-                    <p class="song-title" id="songTitle">Our Song</p>
-                    <p class="song-artist" id="songArtist">Add your music file</p>
+                    <p class="song-title" id="songTitle">Our Special Song 🎶</p>
+                    <p class="song-artist" id="songArtist">For My Best Friend 💗</p>
                 </div>
-                <div class="progress-container" id="progressContainer">
+                <div class="progress-container" id="progressContainer" title="Seek position">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
                 <div class="time-display">
@@ -275,16 +324,16 @@
                     <span id="totalTime">0:00</span>
                 </div>
                 <div class="player-controls">
-                    <button class="player-btn" id="prevBtn" onclick="prevTrack()">⏮</button>
-                    <button class="player-btn play-btn" id="playPauseBtn" onclick="togglePlay()">▶</button>
-                    <button class="player-btn" id="nextBtn" onclick="nextTrack()">⏭</button>
+                    <button class="player-btn" id="prevBtn" onclick="prevTrack()" title="Previous Track">⏮</button>
+                    <button class="player-btn play-btn" id="playPauseBtn" onclick="togglePlay()" title="Play or Pause">▶</button>
+                    <button class="player-btn" id="nextBtn" onclick="nextTrack()" title="Next Track">⏭</button>
                 </div>
                 <div class="volume-control">
-                    <span>🔈</span>
-                    <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+                    <span id="volIconPage">🔈</span>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="75" class="volume-slider" aria-label="Page Volume Slider">
                     <span>🔊</span>
                 </div>
-                <p class="music-note handwritten">Add music files to the assets/music folder 🎶</p>
+                <p class="music-note handwritten">Playing our melody across every page 🎶</p>
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(11)">← Back</button>
@@ -293,12 +342,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 13: MOOD ============ -->
+    <!-- ============ PAGE 13: CHOOSE YOUR MOOD ============ -->
     <section class="page" id="page13" data-page="13">
         <div class="page-inner mood-page">
             <h1 class="page-title handwritten">WHAT'S YOUR MOOD TODAY? 🌈</h1>
             <div class="mood-grid" id="moodGrid">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="mood-message" id="moodMessage" style="display:none">
                 <div class="scrapbook-card mood-result-card">
@@ -313,7 +362,7 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 14: THIS OR THAT ============ -->
+    <!-- ============ PAGE 14: THIS OR THAT? ============ -->
     <section class="page" id="page14" data-page="14">
         <div class="page-inner thisorthat-page">
             <h1 class="page-title handwritten">THIS OR THAT? 🤔</h1>
@@ -342,7 +391,7 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 15: COMPLIMENT ============ -->
+    <!-- ============ PAGE 15: RANDOM COMPLIMENT GENERATOR ============ -->
     <section class="page" id="page15" data-page="15">
         <div class="page-inner compliment-page">
             <h1 class="page-title elegant">A LITTLE COMPLIMENT FOR YOU ✨</h1>
@@ -362,21 +411,21 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 16: OPEN WHEN ============ -->
+    <!-- ============ PAGE 16: OPEN WHEN... ============ -->
     <section class="page" id="page16" data-page="16">
         <div class="page-inner openwhen-page">
             <h1 class="page-title handwritten">Open When... 💌</h1>
             <div class="openwhen-grid" id="openWhenGrid">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <!-- Modal for open-when messages -->
-            <div class="openwhen-modal" id="openWhenModal" style="display:none">
+            <div class="openwhen-modal" id="openWhenModal" style="display:none" role="dialog" aria-modal="true" aria-label="Open When Letter">
                 <div class="openwhen-modal-content">
-                    <button class="openwhen-close" onclick="closeOpenWhen()">&times;</button>
+                    <button class="openwhen-close" onclick="closeOpenWhen()" aria-label="Close Letter">&times;</button>
                     <div class="letter-paper">
                         <h3 class="handwritten" id="openWhenTitle"></h3>
                         <p class="handwritten" id="openWhenMessage"></p>
-                        <span class="letter-deco">💕</span>
+                        <span class="letter-deco" aria-hidden="true">💕</span>
                     </div>
                 </div>
             </div>
@@ -387,12 +436,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 17: MOODBOARD ============ -->
+    <!-- ============ PAGE 17: THE SCRAPBOOK MOODBOARD ============ -->
     <section class="page" id="page17" data-page="17">
         <div class="page-inner moodboard-page">
             <h1 class="page-title handwritten">Our Moodboard 🎀</h1>
             <div class="moodboard-grid" id="moodboardGrid">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(16)">← Back</button>
@@ -401,7 +450,7 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 18: MEMORY GAME ============ -->
+    <!-- ============ PAGE 18: A MINI MEMORY GAME ============ -->
     <section class="page" id="page18" data-page="18">
         <div class="page-inner memorygame-page">
             <h1 class="page-title handwritten">Memory Game 🃏</h1>
@@ -410,8 +459,8 @@
                 <span>Moves: <strong id="moveCount">0</strong></span>
                 <span>Pairs: <strong id="pairCount">0</strong>/<strong id="totalPairs">8</strong></span>
             </div>
-            <div class="memory-game-board" id="gameBoard">
-                <!-- Filled by JS -->
+            <div class="memory-game-board" id="gameBoard" role="grid" aria-label="Memory Card Matching Game">
+                <!-- Filled dynamically by JS -->
             </div>
             <div class="game-congrats" id="gameCongrats" style="display:none">
                 <div class="scrapbook-card congrats-card">
@@ -427,12 +476,12 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 19: LAST SURPRISE ============ -->
+    <!-- ============ PAGE 19: ONE LAST LITTLE SURPRISE ============ -->
     <section class="page" id="page19" data-page="19">
         <div class="page-inner surprise-page">
             <h1 class="page-title elegant">WAIT... THERE'S SOMETHING ELSE! 🎁</h1>
             <div class="gift-container" id="giftContainer">
-                <div class="gift-box" id="giftBox" onclick="openGift()">
+                <div class="gift-box" id="giftBox" onclick="openGift()" role="button" aria-label="Unlock Surprise Gift">
                     <div class="gift-lid">
                         <div class="gift-bow">🎀</div>
                     </div>
@@ -444,11 +493,11 @@
                 <button class="btn-pink btn-lg gift-btn" id="giftBtn" onclick="openGift()">UNLOCK THE SURPRISE 🔓</button>
             </div>
             <div class="surprise-reveal" id="surpriseReveal" style="display:none">
-                <div class="surprise-hearts" id="surpriseHearts"></div>
+                <div class="surprise-hearts" id="surpriseHearts" aria-hidden="true"></div>
                 <div class="scrapbook-card surprise-card">
                     <h2 class="handwritten">You're Truly One of a Kind 💗</h2>
-                    <div class="polaroid-frame surprise-photo">
-                        <img src="" alt="Surprise Photo" id="surprisePhoto">
+                    <div class="polaroid-frame surprise-photo" id="surprisePhotoFrame">
+                        <img src="" alt="Surprise Memory Photo" id="surprisePhoto" loading="lazy">
                         <div class="polaroid-caption handwritten">us forever 💕</div>
                     </div>
                     <p class="surprise-message handwritten" id="surpriseMessage"></p>
@@ -461,10 +510,10 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 20: FINAL ============ -->
+    <!-- ============ PAGE 20: THE FINAL PAGE ============ -->
     <section class="page" id="page20" data-page="20">
         <div class="page-inner final-page">
-            <div class="final-sparkles">
+            <div class="final-sparkles" aria-hidden="true">
                 <span style="--d:0s">✨</span><span style="--d:0.3s">💕</span>
                 <span style="--d:0.6s">🌸</span><span style="--d:0.9s">⭐</span>
                 <span style="--d:1.2s">💗</span><span style="--d:1.5s">✨</span>
@@ -474,7 +523,7 @@
                 <p class="handwritten final-text">Some people make ordinary days feel a little more special. I'm genuinely glad to have you as my friend. Here's to more laughter, more memories, and countless crazy moments together.</p>
             </div>
             <div class="final-collage" id="finalCollage">
-                <!-- Filled by JS -->
+                <!-- Filled dynamically by JS -->
             </div>
             <h2 class="handwritten final-thanks">THANK YOU FOR BEING YOU! 💗</h2>
             <button class="btn-pink btn-lg replay-btn" onclick="goToPage(1)">
@@ -486,12 +535,11 @@
         </div>
     </section>
 
-    <!-- Audio element for global music -->
+    <!-- Unified Master Audio Element for Seamless Continuous Background Music -->
     <audio id="globalAudio" loop preload="auto">
-        <!-- Add your music source here -->
-        <!-- <source src="assets/music/song.mp3" type="audio/mpeg"> -->
+        <source src="assets/music/%F0%9F%8E%B6.mp3" type="audio/mpeg">
+        <source src="assets/music/🎶.mp3" type="audio/mpeg">
     </audio>
-    <audio id="pageAudio" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
