@@ -418,6 +418,7 @@ body {
 .jokes-page { background: var(--page-linear-vert); }
 .letter-page { background: var(--page-radial-1); }
 .collection-page { background: var(--bg); }
+.reels-page { background: var(--page-linear-vert); }
 .music-page { background: var(--page-radial-1); }
 .mood-page { background: var(--page-linear-diag); }
 .thisorthat-page { background: var(--bg); }
@@ -1359,7 +1360,382 @@ body {
 .polaroid-row .polaroid-frame:nth-child(even) { transform: rotate(2deg); }
 
 /* ===========================
-   PAGE 12: THE MUSIC CORNER
+   PAGE 12: OUR LITTLE REELS 🎬
+   =========================== */
+.reels-page {
+    background: var(--page-linear-vert);
+}
+
+.reels-header {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.reels-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 950px;
+    position: relative;
+    padding: 10px;
+}
+
+/* Nav Buttons (Desktop) */
+.reel-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    color: var(--text);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    z-index: 5;
+    flex-shrink: 0;
+}
+.reel-nav-btn:hover {
+    background: var(--light-pink);
+    border-color: var(--soft-rose);
+    transform: scale(1.12);
+    box-shadow: var(--shadow-hover);
+}
+.reel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* Reel Frame Wrapper */
+.reel-frame-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Reel Card (Vertical 9:16) */
+.reel-card {
+    width: 315px;
+    height: 560px;
+    background: #000000;
+    border-radius: 26px;
+    border: 3.5px solid var(--border-color);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+.reel-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--soft-rose);
+}
+
+/* Video Box */
+.reel-video-box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    background: #0a060d;
+}
+
+.reel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #0a060d;
+}
+
+/* Big Centered Play/Pause Indicator Overlay */
+.reel-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.75);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 2.2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    z-index: 4;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+}
+.reel-play-overlay.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Floating Heart Reactions */
+.reel-hearts-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+}
+.reel-heart-burst {
+    position: absolute;
+    font-size: 2.2rem;
+    animation: burstHeart 1.2s ease-out forwards;
+    pointer-events: none;
+}
+@keyframes burstHeart {
+    0% { transform: translate(-50%, -50%) scale(0.4) rotate(0deg); opacity: 1; }
+    50% { transform: translate(-50%, -90px) scale(1.4) rotate(-15deg); opacity: 0.95; }
+    100% { transform: translate(-50%, -170px) scale(1) rotate(20deg); opacity: 0; }
+}
+
+/* Top Bar Overlay */
+.reel-top-bar {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 4;
+}
+.reel-badge {
+    background: rgba(23, 19, 27, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 20px;
+    padding: 5px 12px;
+    color: #FFF0F6;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.reel-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(23, 19, 27, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #FFF0F6;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.reel-icon-btn:hover {
+    background: var(--soft-rose);
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+/* Bottom Controls Overlay */
+.reel-bottom-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 34px 16px 14px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.reel-caption-overlay {
+    overflow: hidden;
+}
+.reel-caption-text {
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+    margin: 0;
+}
+
+/* Reel Progress Bar */
+.reel-progress-wrap {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: height 0.2s;
+}
+.reel-progress-wrap:hover {
+    height: 6px;
+}
+.reel-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--soft-rose), var(--accent));
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+/* Bottom Controls Row */
+.reel-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.reel-mini-btn {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+.reel-mini-btn:hover {
+    transform: scale(1.2);
+    color: var(--accent);
+}
+.reel-time-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.5px;
+}
+.love-heart-btn {
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.reel-mini-btn.love-btn:hover .love-heart-btn {
+    transform: scale(1.3);
+}
+
+/* Stickers on Reel Frame */
+.reel-sticker {
+    position: absolute;
+    font-size: 2.2rem;
+    z-index: 6;
+    pointer-events: none;
+    animation: float-gentle 4s ease-in-out infinite;
+}
+.reel-sticker.top-left-sticker {
+    top: -16px;
+    left: -14px;
+}
+.reel-sticker.bottom-right-sticker {
+    bottom: -14px;
+    right: -14px;
+    animation-delay: 1.5s;
+}
+
+/* Scrapbook Caption Note Aside */
+.reel-sidebar-note {
+    max-width: 290px;
+    padding: 26px 22px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    transition: var(--theme-transition);
+}
+.reel-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.reel-sidebar-header .camera-icon {
+    font-size: 1.6rem;
+}
+.reel-sidebar-header h3 {
+    font-size: 1.45rem;
+    color: var(--text);
+    margin: 0;
+}
+.reel-note-desc {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Dots Navigation */
+.reel-dots-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
+}
+.reel-dot-pill {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pastel-pink);
+    border: 1.5px solid var(--soft-rose);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.reel-dot-pill.active {
+    width: 24px;
+    border-radius: 12px;
+    background: var(--soft-rose);
+}
+
+.reel-touch-hint {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* Empty State */
+.reel-empty-state {
+    max-width: 500px;
+    text-align: center;
+    padding: 40px;
+    margin: 20px auto;
+}
+.reel-empty-state .empty-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 14px;
+}
+.reel-empty-state h3 {
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+.reel-empty-state p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ===========================
+   PAGE 13: THE MUSIC CORNER
    =========================== */
 .music-player-card {
     background: var(--card-bg);

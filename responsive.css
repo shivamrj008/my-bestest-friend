@@ -103,6 +103,18 @@
         grid-auto-rows: 110px;
     }
 
+    .reels-container {
+        gap: 16px;
+    }
+    .reel-card {
+        width: 290px;
+        height: 516px;
+    }
+    .reel-sidebar-note {
+        max-width: 250px;
+        padding: 20px 16px;
+    }
+
     .global-settings {
         top: 14px;
         right: 14px;
@@ -223,6 +235,32 @@
     .letter-text {
         font-size: 1.2rem;
         line-height: 1.9;
+    }
+
+    /* Reels Page (Mobile / Tablet) */
+    .reels-container {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+    }
+    .reel-nav-btn {
+        display: none;
+    }
+    .reel-card {
+        width: min(84vw, 300px);
+        height: calc(min(84vw, 300px) * 16 / 9);
+        max-height: 60vh;
+        border-radius: 22px;
+    }
+    .reel-sidebar-note {
+        max-width: min(90vw, 360px);
+        width: 100%;
+        text-align: center;
+        align-items: center;
+        padding: 20px 16px;
+    }
+    .reel-dots-nav {
+        justify-content: center;
     }
 
     /* Music Player Card */
@@ -530,6 +568,29 @@
         height: 105px;
     }
 
+    /* Reels Player (480px) */
+    .reel-card {
+        width: min(84vw, 275px);
+        height: calc(min(84vw, 275px) * 16 / 9);
+        max-height: 56vh;
+        border-radius: 20px;
+    }
+    .reel-caption-text {
+        font-size: 1.05rem;
+    }
+    .reel-sticker {
+        font-size: 1.8rem;
+    }
+    .reel-badge {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+    .reel-icon-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
     /* Music Player */
     .music-player-card {
         padding: 28px 18px;
@@ -736,6 +797,12 @@
 
     .openwhen-grid {
         grid-template-columns: 1fr;
+    }
+
+    .reel-card {
+        width: 235px;
+        height: calc(235px * 16 / 9);
+        max-height: 52vh;
     }
 
     .memory-game-board {

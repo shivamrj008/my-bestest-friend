@@ -37,6 +37,35 @@ const CONFIG = {
         fallbackSrc: "assets/music/🎶.mp3"
     },
 
+    // --- Scanned Videos from assets/videos/ folder ---
+    videos: [
+        {
+            src: "assets/videos/Video-17078.mp4",
+            title: "Silly Moments 🎀",
+            caption: "A little moment worth remembering ♡"
+        },
+        {
+            src: "assets/videos/Video-61964.mp4",
+            title: "Pure Joy ✨",
+            caption: "Just another silly memory 🎀"
+        },
+        {
+            src: "assets/videos/Video-96377.mp4",
+            title: "Our Kind of Chaos 🤪",
+            caption: "Too funny to forget! 😂"
+        },
+        {
+            src: "assets/videos/WhatsApp Video 2026-11-11 at 5.05.18 AM.mp4",
+            title: "Unfiltered Us 🌸",
+            caption: "Our kind of chaos. 💕"
+        },
+        {
+            src: "assets/videos/WhatsApp Video 2026-11-11 at 5.06.50 AM.mp4",
+            title: "Forever Memories 💫",
+            caption: "One for the memories. ✨"
+        }
+    ],
+
     // --- Memory Captions (Page 6) ---
     memoryCaptions: [
         "A moment I'll never forget 💕",
@@ -172,7 +201,7 @@ Here's to all the unforgettable memories we've shared, and to the countless more
 // ============================================
 
 let currentPage = 1;
-const totalPages = 20;
+const totalPages = 21;
 
 let masterAudio = null;
 let isAudioPlaying = false;
@@ -209,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOpenWhen();
     initMoodboard();
     initPhotoCollection();
+    initReelsPlayer();
     initFinalCollage();
     startMemoryGame();
     initFloatingDecorations();
@@ -522,6 +552,11 @@ function initGlobalSettings() {
 function goToPage(pageNum) {
     if (pageNum < 1 || pageNum > totalPages) return;
 
+    // Pause active reel when leaving Page 12
+    if (currentPage === 12) {
+        pauseActiveReel();
+    }
+
     const currentEl = document.getElementById(`page${currentPage}`);
     const nextEl = document.getElementById(`page${pageNum}`);
 
@@ -546,8 +581,12 @@ function goToPage(pageNum) {
             nextEl.classList.remove('entering');
         }, 500);
 
-        // Page specific resets
-        if (pageNum === 14) resetTOT();
+        // Page specific actions & resets
+        if (pageNum === 12) {
+            onEnterReelsPage();
+        } else if (pageNum === 15) {
+            resetTOT();
+        }
     }, 350);
 }
 
@@ -958,7 +997,300 @@ function initPhotoCollection() {
 
 
 // ============================================
-// ===== PAGE 13: CHOOSE YOUR MOOD ============
+// ===== PAGE 12: OUR LITTLE REELS 🎬 =========
+// ============================================
+
+let currentReelIndex = 0;
+let isReelMuted = true;
+let reelVideoEl = null;
+
+function initReelsPlayer() {
+    reelVideoEl = document.getElementById('activeReelVideo');
+    const emptyState = document.getElementById('reelEmptyState');
+    const container = document.getElementById('reelsContainer');
+
+    if (!CONFIG.videos || CONFIG.videos.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        if (container) container.style.display = 'none';
+        return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+    if (container) container.style.display = 'flex';
+
+    if (reelVideoEl) {
+        reelVideoEl.muted = isReelMuted;
+
+        reelVideoEl.addEventListener('timeupdate', updateReelProgress);
+        reelVideoEl.addEventListener('play', () => updateReelPlayUI(true));
+        reelVideoEl.addEventListener('pause', () => updateReelPlayUI(false));
+        reelVideoEl.addEventListener('ended', () => {
+            // Auto-advance to next reel on end
+            nextReel();
+        });
+
+        // Tap video to toggle play/pause
+        const videoBox = document.getElementById('reelVideoBox');
+        if (videoBox) {
+            videoBox.addEventListener('click', (e) => {
+                // Ignore clicks on control buttons, mute button, or progress bar
+                if (e.target.closest('.reel-controls-bar') || 
+                    e.target.closest('.reel-top-bar') || 
+                    e.target.closest('.reel-progress-wrap')) {
+                    return;
+                }
+                toggleReelPlay(e);
+            });
+
+            // Touch Swipe Gestures for Mobile (Reels Style)
+            let touchStartY = 0;
+            let touchStartTime = 0;
+
+            videoBox.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    touchStartY = e.touches[0].clientY;
+                    touchStartTime = Date.now();
+                }
+            }, { passive: true });
+
+            videoBox.addEventListener('touchend', (e) => {
+                if (e.changedTouches.length === 1) {
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const diffY = touchStartY - touchEndY;
+                    const duration = Date.now() - touchStartTime;
+
+                    // Swipe threshold: > 45px vertical movement in < 500ms
+                    if (Math.abs(diffY) > 45 && duration < 500) {
+                        if (diffY > 0) {
+                            // Swiped UP -> Next Reel
+                            nextReel();
+                        } else {
+                            // Swiped DOWN -> Previous Reel
+                            prevReel();
+                        }
+                    }
+                }
+            }, { passive: true });
+        }
+    }
+
+    // Progress Bar Seeking
+    const progressWrap = document.getElementById('reelProgressWrap');
+    if (progressWrap) {
+        progressWrap.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!reelVideoEl || !reelVideoEl.duration) return;
+            const rect = progressWrap.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            reelVideoEl.currentTime = pos * reelVideoEl.duration;
+        });
+    }
+
+    // Build dots navigation
+    buildReelDots();
+
+    // Load initial reel without forcing sound or playback
+    loadReel(0, false);
+}
+
+function buildReelDots() {
+    const dotsNav = document.getElementById('reelDotsNav');
+    if (!dotsNav || !CONFIG.videos) return;
+    dotsNav.innerHTML = '';
+
+    CONFIG.videos.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'reel-dot-pill' + (i === currentReelIndex ? ' active' : '');
+        dot.setAttribute('title', `Go to Reel ${i + 1}`);
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            loadReel(i, true);
+        });
+        dotsNav.appendChild(dot);
+    });
+}
+
+function loadReel(index, shouldPlay = false) {
+    if (!CONFIG.videos || CONFIG.videos.length === 0) return;
+
+    currentReelIndex = (index + CONFIG.videos.length) % CONFIG.videos.length;
+    const item = CONFIG.videos[currentReelIndex];
+
+    if (!reelVideoEl) {
+        reelVideoEl = document.getElementById('activeReelVideo');
+    }
+
+    if (reelVideoEl) {
+        reelVideoEl.pause();
+        reelVideoEl.src = item.src;
+        reelVideoEl.muted = isReelMuted;
+        reelVideoEl.load();
+
+        if (shouldPlay) {
+            reelVideoEl.play().catch(() => {
+                updateReelPlayUI(false);
+            });
+        }
+    }
+
+    // Update Captions and Badges
+    const counterText = document.getElementById('reelCounterText');
+    const overlayCaption = document.getElementById('reelOverlayCaption');
+    const noteTitle = document.getElementById('reelNoteTitle');
+    const noteDesc = document.getElementById('reelNoteDesc');
+
+    if (counterText) counterText.textContent = `Reel ${currentReelIndex + 1} / ${CONFIG.videos.length}`;
+    if (overlayCaption) overlayCaption.textContent = item.caption;
+    if (noteTitle) noteTitle.textContent = item.title || `Memory Clip #${currentReelIndex + 1} ✨`;
+    if (noteDesc) noteDesc.textContent = `"${item.caption}"`;
+
+    // Update active dot
+    const dots = document.querySelectorAll('.reel-dot-pill');
+    dots.forEach((d, i) => {
+        d.classList.toggle('active', i === currentReelIndex);
+    });
+
+    updateReelMuteUI();
+}
+
+function toggleReelPlay(e) {
+    if (e) e.stopPropagation();
+    if (!reelVideoEl) return;
+
+    if (reelVideoEl.paused) {
+        reelVideoEl.play().then(() => {
+            showPlayIndicator('▶');
+        }).catch(() => {});
+    } else {
+        reelVideoEl.pause();
+        showPlayIndicator('⏸');
+    }
+}
+
+function showPlayIndicator(iconText) {
+    const overlay = document.getElementById('reelPlayOverlay');
+    const icon = document.getElementById('playOverlayIcon');
+    if (overlay && icon) {
+        icon.textContent = iconText;
+        overlay.classList.add('show');
+        setTimeout(() => {
+            overlay.classList.remove('show');
+        }, 500);
+    }
+}
+
+function updateReelPlayUI(isPlaying) {
+    const playBtnIcon = document.getElementById('reelPlayBtnIcon');
+    if (playBtnIcon) {
+        playBtnIcon.textContent = isPlaying ? '⏸' : '▶';
+    }
+}
+
+function toggleReelMute(e) {
+    if (e) e.stopPropagation();
+    if (!reelVideoEl) return;
+
+    isReelMuted = !reelVideoEl.muted;
+    reelVideoEl.muted = isReelMuted;
+    updateReelMuteUI();
+}
+
+function updateReelMuteUI() {
+    const muteIcon = document.getElementById('reelMuteIcon');
+    if (muteIcon) {
+        muteIcon.textContent = isReelMuted ? '🔇' : '🔊';
+    }
+}
+
+function toggleReelFullscreen(e) {
+    if (e) e.stopPropagation();
+    const videoBox = document.getElementById('reelVideoBox');
+    if (!videoBox) return;
+
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (videoBox.requestFullscreen) {
+            videoBox.requestFullscreen();
+        } else if (videoBox.webkitRequestFullscreen) {
+            videoBox.webkitRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+}
+
+function nextReel() {
+    loadReel(currentReelIndex + 1, true);
+    burstReelHearts();
+}
+
+function prevReel() {
+    loadReel(currentReelIndex - 1, true);
+}
+
+function pauseActiveReel() {
+    if (reelVideoEl && !reelVideoEl.paused) {
+        reelVideoEl.pause();
+        updateReelPlayUI(false);
+    }
+}
+
+function onEnterReelsPage() {
+    if (reelVideoEl && reelVideoEl.paused) {
+        reelVideoEl.muted = isReelMuted;
+        reelVideoEl.play().catch(() => {
+            updateReelPlayUI(false);
+        });
+    }
+}
+
+function updateReelProgress() {
+    if (!reelVideoEl || !reelVideoEl.duration) return;
+    const pct = (reelVideoEl.currentTime / reelVideoEl.duration) * 100;
+    const bar = document.getElementById('reelProgressBar');
+    if (bar) bar.style.width = pct + '%';
+
+    const timeText = document.getElementById('reelTimeText');
+    if (timeText) {
+        timeText.textContent = `${formatTime(reelVideoEl.currentTime)} / ${formatTime(reelVideoEl.duration)}`;
+    }
+}
+
+function burstReelHearts(e) {
+    if (e) e.stopPropagation();
+    const container = document.getElementById('reelHeartsContainer');
+    if (!container) return;
+
+    const emojis = ['💗', '💕', '💖', '✨', '🎀', '🌸'];
+    const count = 5;
+
+    for (let i = 0; i < count; i++) {
+        const heart = document.createElement('span');
+        heart.className = 'reel-heart-burst';
+        heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = (40 + (Math.random() - 0.5) * 40) + '%';
+        heart.style.top = (50 + (Math.random() - 0.5) * 30) + '%';
+        heart.style.animationDelay = (i * 0.08) + 's';
+        container.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 1300);
+    }
+}
+
+// Window bindings for inline onclicks
+window.nextReel = nextReel;
+window.prevReel = prevReel;
+window.toggleReelPlay = toggleReelPlay;
+window.toggleReelMute = toggleReelMute;
+window.toggleReelFullscreen = toggleReelFullscreen;
+window.burstReelHearts = burstReelHearts;
+
+
+// ============================================
+// ===== PAGE 14: CHOOSE YOUR MOOD ============
 // ============================================
 
 function initMoodSelector() {
@@ -1000,7 +1332,7 @@ window.resetMood = resetMood;
 
 
 // ============================================
-// ===== PAGE 14: THIS OR THAT? ===============
+// ===== PAGE 15: THIS OR THAT? ===============
 // ============================================
 
 function initThisOrThat() {
@@ -1075,7 +1407,7 @@ window.resetTOT = resetTOT;
 
 
 // ============================================
-// ===== PAGE 15: COMPLIMENT GENERATOR ========
+// ===== PAGE 16: COMPLIMENT GENERATOR ========
 // ============================================
 
 function generateCompliment() {
@@ -1115,7 +1447,7 @@ function createSparkles(count) {
 
 
 // ============================================
-// ===== PAGE 16: OPEN WHEN... ================
+// ===== PAGE 17: OPEN WHEN... ================
 // ============================================
 
 function initOpenWhen() {
@@ -1160,7 +1492,7 @@ window.closeOpenWhen = closeOpenWhen;
 
 
 // ============================================
-// ===== PAGE 17: THE SCRAPBOOK MOODBOARD =====
+// ===== PAGE 18: THE SCRAPBOOK MOODBOARD =====
 // ============================================
 
 function initMoodboard() {
@@ -1213,7 +1545,7 @@ function initMoodboard() {
 
 
 // ============================================
-// ===== PAGE 18: A MINI MEMORY GAME ==========
+// ===== PAGE 19: A MINI MEMORY GAME ==========
 // ============================================
 
 const gameEmojis = ['🌸', '💗', '🦋', '✨', '🎀', '🌷', '🧸', '💐'];
@@ -1312,7 +1644,7 @@ function flipCard(index) {
 
 
 // ============================================
-// ===== PAGE 19: UNLOCK SURPRISE =============
+// ===== PAGE 20: UNLOCK SURPRISE =============
 // ============================================
 
 function openGift() {
@@ -1356,7 +1688,7 @@ function createSurpriseHearts() {
 
 
 // ============================================
-// ===== PAGE 20: FINAL COLLAGE ===============
+// ===== PAGE 21: FINAL COLLAGE ===============
 // ============================================
 
 function initFinalCollage() {

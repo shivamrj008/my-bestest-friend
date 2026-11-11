@@ -75,9 +75,9 @@
         </div>
     </aside>
 
-    <!-- Page Indicator -->
+    <!-- Page Indicator (21 Pages Total) -->
     <nav class="page-indicator" id="pageIndicator" aria-label="Page navigation status">
-        <span id="currentPageNum">01</span> / <span id="totalPages">20</span>
+        <span id="currentPageNum">01</span> / <span id="totalPages">21</span>
     </nav>
 
     <!-- Floating Background Decorations -->
@@ -302,8 +302,123 @@
         </div>
     </section>
 
-    <!-- ============ PAGE 12: THE MUSIC CORNER ============ -->
+    <!-- ============ PAGE 12: OUR LITTLE REELS 🎬 (NEW!) ============ -->
     <section class="page" id="page12" data-page="12">
+        <div class="page-inner reels-page">
+            <div class="reels-header">
+                <div class="deco-ribbon top-ribbon">🎀</div>
+                <h1 class="page-title handwritten">Our Little Reels 🎬</h1>
+                <p class="page-subtitle cursive">Little clips, silly moments & memories worth keeping. 💕</p>
+            </div>
+
+            <!-- Reels Showcase Container -->
+            <div class="reels-container" id="reelsContainer">
+                <!-- Desktop Previous Button -->
+                <button class="reel-nav-btn reel-prev-btn" id="reelPrevBtn" onclick="prevReel()" title="Previous Reel" aria-label="Previous Reel">
+                    <span>▲</span>
+                </button>
+
+                <!-- Reel Main Frame (Vertical 9:16) -->
+                <div class="reel-frame-wrapper">
+                    <!-- Scrapbook Washi Tape -->
+                    <div class="washi-tape tape-rose"></div>
+
+                    <div class="reel-card" id="reelCard">
+                        <!-- Video Box -->
+                        <div class="reel-video-box" id="reelVideoBox">
+                            <video id="activeReelVideo" class="reel-video" playsinline preload="metadata" loop>
+                                <!-- Source set dynamically by JS -->
+                            </video>
+
+                            <!-- Big Centered Play/Pause Indicator Overlay -->
+                            <div class="reel-play-overlay" id="reelPlayOverlay" aria-hidden="true">
+                                <span class="play-overlay-icon" id="playOverlayIcon">▶</span>
+                            </div>
+
+                            <!-- Floating Hearts Reaction Container -->
+                            <div class="reel-hearts-container" id="reelHeartsContainer" aria-hidden="true"></div>
+
+                            <!-- Reel Top Overlay Bar -->
+                            <div class="reel-top-bar">
+                                <span class="reel-badge" id="reelBadge">
+                                    <span class="reel-badge-icon">🎥</span>
+                                    <span id="reelCounterText">Reel 1 / 5</span>
+                                </span>
+                                <button class="reel-icon-btn" id="reelMuteBtn" onclick="toggleReelMute(event)" title="Mute/Unmute Video" aria-label="Toggle Reel Sound">
+                                    <span id="reelMuteIcon">🔇</span>
+                                </button>
+                            </div>
+
+                            <!-- Reel Bottom Overlay Controls -->
+                            <div class="reel-bottom-overlay">
+                                <div class="reel-caption-overlay">
+                                    <p class="reel-caption-text handwritten" id="reelOverlayCaption">A little moment worth remembering ♡</p>
+                                </div>
+                                <div class="reel-progress-wrap" id="reelProgressWrap" title="Seek Video">
+                                    <div class="reel-progress-bar" id="reelProgressBar"></div>
+                                </div>
+                                <div class="reel-controls-bar">
+                                    <button class="reel-mini-btn" id="reelPlayBtn" onclick="toggleReelPlay(event)" title="Play / Pause">
+                                        <span id="reelPlayBtnIcon">▶</span>
+                                    </button>
+                                    <span class="reel-time-text" id="reelTimeText">0:00 / 0:00</span>
+                                    <button class="reel-mini-btn love-btn" id="reelLoveBtn" onclick="burstReelHearts(event)" title="Send Love 💕">
+                                        <span class="love-heart-btn">💗</span>
+                                    </button>
+                                    <button class="reel-mini-btn" id="reelFullscreenBtn" onclick="toggleReelFullscreen(event)" title="Fullscreen">
+                                        <span>⛶</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decorative Stickers -->
+                    <span class="reel-sticker top-left-sticker" aria-hidden="true">🎀</span>
+                    <span class="reel-sticker bottom-right-sticker" aria-hidden="true">✨</span>
+                </div>
+
+                <!-- Desktop Next Button -->
+                <button class="reel-nav-btn reel-next-btn" id="reelNextBtn" onclick="nextReel()" title="Next Reel" aria-label="Next Reel">
+                    <span>▼</span>
+                </button>
+
+                <!-- Scrapbook Caption Note Aside -->
+                <div class="reel-sidebar-note scrapbook-card">
+                    <div class="washi-tape tape-pink"></div>
+                    <div class="reel-sidebar-header">
+                        <span class="camera-icon">📹</span>
+                        <h3 class="handwritten" id="reelNoteTitle">Memory Clip ✨</h3>
+                    </div>
+                    <p class="handwritten reel-note-desc" id="reelNoteDesc">
+                        "A little moment worth remembering ♡"
+                    </p>
+                    <div class="reel-dots-nav" id="reelDotsNav" aria-label="Reels list">
+                        <!-- Navigation dots generated dynamically -->
+                    </div>
+                    <div class="reel-touch-hint">
+                        <span>📱 Swipe up / down or use arrows to change reels!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Placeholder (Shown if no videos exist) -->
+            <div class="reel-empty-state scrapbook-card" id="reelEmptyState" style="display:none">
+                <span class="empty-icon">🎞️</span>
+                <h3 class="handwritten">No Video Clips Found Yet</h3>
+                <p class="handwritten">Add your favorite video clips (.mp4, .webm) into the <code>assets/videos/</code> folder to watch our memory reels here! 🎀</p>
+            </div>
+
+            <!-- Page Navigation Buttons -->
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(11)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(13)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 13: THE MUSIC CORNER ============ -->
+    <section class="page" id="page13" data-page="13">
         <div class="page-inner music-page">
             <h1 class="page-title handwritten">OUR LITTLE SOUNDTRACK 🎵</h1>
             <div class="music-player-card">
@@ -336,14 +451,14 @@
                 <p class="music-note handwritten">Playing our melody across every page 🎶</p>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(11)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(13)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(12)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(14)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 13: CHOOSE YOUR MOOD ============ -->
-    <section class="page" id="page13" data-page="13">
+    <!-- ============ PAGE 14: CHOOSE YOUR MOOD ============ -->
+    <section class="page" id="page14" data-page="14">
         <div class="page-inner mood-page">
             <h1 class="page-title handwritten">WHAT'S YOUR MOOD TODAY? 🌈</h1>
             <div class="mood-grid" id="moodGrid">
@@ -356,14 +471,14 @@
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(12)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(14)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(13)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(15)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 14: THIS OR THAT? ============ -->
-    <section class="page" id="page14" data-page="14">
+    <!-- ============ PAGE 15: THIS OR THAT? ============ -->
+    <section class="page" id="page15" data-page="15">
         <div class="page-inner thisorthat-page">
             <h1 class="page-title handwritten">THIS OR THAT? 🤔</h1>
             <div class="tot-container" id="totContainer">
@@ -385,14 +500,14 @@
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(13)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(15)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(14)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(16)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 15: RANDOM COMPLIMENT GENERATOR ============ -->
-    <section class="page" id="page15" data-page="15">
+    <!-- ============ PAGE 16: RANDOM COMPLIMENT GENERATOR ============ -->
+    <section class="page" id="page16" data-page="16">
         <div class="page-inner compliment-page">
             <h1 class="page-title elegant">A LITTLE COMPLIMENT FOR YOU ✨</h1>
             <div class="compliment-card">
@@ -405,14 +520,14 @@
                 </button>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(14)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(16)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(15)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(17)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 16: OPEN WHEN... ============ -->
-    <section class="page" id="page16" data-page="16">
+    <!-- ============ PAGE 17: OPEN WHEN... ============ -->
+    <section class="page" id="page17" data-page="17">
         <div class="page-inner openwhen-page">
             <h1 class="page-title handwritten">Open When... 💌</h1>
             <div class="openwhen-grid" id="openWhenGrid">
@@ -430,28 +545,28 @@
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(15)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(17)">Next →</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ PAGE 17: THE SCRAPBOOK MOODBOARD ============ -->
-    <section class="page" id="page17" data-page="17">
-        <div class="page-inner moodboard-page">
-            <h1 class="page-title handwritten">Our Moodboard 🎀</h1>
-            <div class="moodboard-grid" id="moodboardGrid">
-                <!-- Filled dynamically by JS -->
-            </div>
-            <div class="nav-buttons">
                 <button class="btn-nav btn-back" onclick="goToPage(16)">← Back</button>
                 <button class="btn-nav btn-next" onclick="goToPage(18)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 18: A MINI MEMORY GAME ============ -->
+    <!-- ============ PAGE 18: THE SCRAPBOOK MOODBOARD ============ -->
     <section class="page" id="page18" data-page="18">
+        <div class="page-inner moodboard-page">
+            <h1 class="page-title handwritten">Our Moodboard 🎀</h1>
+            <div class="moodboard-grid" id="moodboardGrid">
+                <!-- Filled dynamically by JS -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav btn-back" onclick="goToPage(17)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(19)">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAGE 19: A MINI MEMORY GAME ============ -->
+    <section class="page" id="page19" data-page="19">
         <div class="page-inner memorygame-page">
             <h1 class="page-title handwritten">Memory Game 🃏</h1>
             <p class="page-subtitle">Match the pairs! 🌸</p>
@@ -470,14 +585,14 @@
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(17)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(19)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(18)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(20)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 19: ONE LAST LITTLE SURPRISE ============ -->
-    <section class="page" id="page19" data-page="19">
+    <!-- ============ PAGE 20: ONE LAST LITTLE SURPRISE ============ -->
+    <section class="page" id="page20" data-page="20">
         <div class="page-inner surprise-page">
             <h1 class="page-title elegant">WAIT... THERE'S SOMETHING ELSE! 🎁</h1>
             <div class="gift-container" id="giftContainer">
@@ -504,14 +619,14 @@
                 </div>
             </div>
             <div class="nav-buttons">
-                <button class="btn-nav btn-back" onclick="goToPage(18)">← Back</button>
-                <button class="btn-nav btn-next" onclick="goToPage(20)">Next →</button>
+                <button class="btn-nav btn-back" onclick="goToPage(19)">← Back</button>
+                <button class="btn-nav btn-next" onclick="goToPage(21)">Next →</button>
             </div>
         </div>
     </section>
 
-    <!-- ============ PAGE 20: THE FINAL PAGE ============ -->
-    <section class="page" id="page20" data-page="20">
+    <!-- ============ PAGE 21: THE FINAL PAGE ============ -->
+    <section class="page" id="page21" data-page="21">
         <div class="page-inner final-page">
             <div class="final-sparkles" aria-hidden="true">
                 <span style="--d:0s">✨</span><span style="--d:0.3s">💕</span>
